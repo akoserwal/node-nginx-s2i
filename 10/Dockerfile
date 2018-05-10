@@ -14,9 +14,9 @@ ENV NPM_RUN=start \
     DEV_MODE=false
 
 
-ENV NGINX_VERSION 1.13
-ENV NGINX_BASE_DIR /opt/nginx/root
-ENV NGINX_VAR_DIR /var/opt/nginx
+ENV NGINX_VERSION 1.8
+ENV NGINX_BASE_DIR /opt/rh/rh-nginx18/root
+ENV NGINX_VAR_DIR /var/opt/rh/rh-nginx18
 
 LABEL io.k8s.description="Platform for building Node.js and running application over Nginx" \
       io.k8s.display-name="Node.js v$NODE_VERSION & nginx builder ${NGINX_VERSION}" \
@@ -31,7 +31,7 @@ LABEL io.k8s.description="Platform for building Node.js and running application 
 # TODO: Install required packages here:
 
 RUN yum install --setopt=tsflags=nodocs -y centos-release-scl-rh \
- && yum install --setopt=tsflags=nodocs -y bcrypt nginx${NGINX_VERSION/\./} \
+ && yum install --setopt=tsflags=nodocs -y bcrypt rh-nginx${NGINX_VERSION/\./} \
  && yum clean all -y \
  && mkdir -p /opt/app-root/etc/nginx.conf.d /opt/app-root/run \
  && chmod -R a+rx  $NGINX_VAR_DIR/lib/nginx \
