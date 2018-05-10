@@ -1,29 +1,24 @@
-
-# openshift/base-centos7
 FROM openshift/base-centos7
 
 # TODO: Put the maintainer name in the image metadata
 MAINTAINER Abhishek koserwal <akoserwa@redhat.com>
 
-# TODO: Rename the builder environment variable to inform users about application you provide them
-ENV HTTPD_VERSION=1.4.35
 
 ENV NPM_RUN=start \
     NODE_VERSION=8.0.0 \
     NPM_CONFIG_LOGLEVEL=info \
     NPM_CONFIG_PREFIX=$HOME/.npm-global \
     PATH=$HOME/node_modules/.bin/:$HOME/.npm-global/bin/:$PATH \
-    NPM_VERSION=3 \
     DEBUG_PORT=5858 \
     NODE_ENV=production \
     DEV_MODE=false
 
 
 ENV NGINX_VERSION 1.8
-ENV NGINX_BASE_DIR /opt/rh/rh-nginx18/root
-ENV NGINX_VAR_DIR /var/opt/rh/rh-nginx18
+ENV NGINX_BASE_DIR /opt/nginx/root
+ENV NGINX_VAR_DIR /var/opt/nginx
 
-LABEL io.k8s.description="Platform for building and running Node.js applications" \
+LABEL io.k8s.description="Platform for building Node.js and running application over Nginx" \
       io.k8s.display-name="Node.js v$NODE_VERSION & nginx builder ${NGINX_VERSION}" \
       io.openshift.expose-services="8080:http" \
       io.openshift.tags="builder,nodejs,nodejs$NODE_VERSION" \
@@ -34,7 +29,7 @@ USER root
 # TODO: Install required packages here:
 # RUN yum install -y ... && yum clean all -y
 RUN yum install --setopt=tsflags=nodocs -y centos-release-scl-rh \
- && yum install --setopt=tsflags=nodocs -y bcrypt rh-nginx${NGINX_VERSION/\./} \
+ && yum install --setopt=tsflags=nodocs -y bcrypt nginx${NGINX_VERSION/\./} \
  && yum clean all -y \
  && mkdir -p /opt/app-root/etc/nginx.conf.d /opt/app-root/run \
  && chmod -R a+rx  $NGINX_VAR_DIR/lib/nginx \
@@ -54,8 +49,6 @@ RUN yum -y install nodejs && yum clean all -y
 COPY ./etc/ /opt/app-root/etc
 
 COPY ./s2i/bin/ /usr/local/s2i
-
-
 
 
 # TODO: Copy the S2I scripts to /usr/libexec/s2i, since openshift/base-centos7 image
