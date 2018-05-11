@@ -12,4 +12,20 @@ Node Version:
 Nginx Version 1.8
 
 
+## Test Application
 
+#### Image
+
+```console 
+$ docker pull akoserwa/nodejs-nginx-s2i
+```
+#### Build sample angular
+
+```console 
+$ s2i build test/test-app/ nodejs-nginx-s2i sample-app 
+```
+#### Run
+
+```console 
+$ docker run -p 8080:8080 sample-app
+```
