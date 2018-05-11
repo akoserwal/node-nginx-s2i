@@ -17,7 +17,7 @@ Nginx Version 1.8
 #### Image
 
 ```console 
-$ docker pull akoserwa/nodejs-nginx-s2i
+$ docker pull akoserwal/nodejs-nginx-s2i
 ```
 #### Build sample angular
 
