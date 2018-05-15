@@ -21,6 +21,9 @@ $ docker pull akoserwal/nodejs-nginx-s2i
 ```
 #### Build sample angular
 
+make sure your build directory is `dist`(change angular.json)
+ ` "outputPath": "dist" `
+
 ```console 
 $ s2i build test/test-app/ nodejs-nginx-s2i sample-app 
 ```
